@@ -1,17 +1,70 @@
 <%- include ("../partials/header") %>
 
-<div class="container">
-<header class="jumbotron">
-  <h1>Welcome to Drive</h1>
-  
-</header>
 
 
-
-
+<div class="main grid-container">
+<div class="grid1">
+  <div class="container">
+    <h3>Side Panel</h3>
+    <button type="button" class="btn button btn-lg">Add File</button>
+  </div>
 </div>
+<div class="grid2">
+  <div class="container">
+    <header class="jumbotron">
+      <h1>Welcome to Drive</h1>
+    </header>
+
+    <h1>Main Content</h1>
+
+ <div class="container">
+    <div class="row"> 
+        <hr>
+        <br><br>
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Last Modified</th>
+			        <th scope="col">Created</th>
+              <th scope="col">Size</th>
+			         <th scope="col">Description</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="implement_loop">
+              <td>File Name</td>
+              <td>Modified Date</td>
+			  <td>Created On</td>
+              <td>File Size</td>
+			  <td>Desc</td>
+              <td>
+                <button type="button" class="btn button-sm btn-sm" ">Update</button>
+                <button type="button" class="btn button-sm btn-sm"">Download</button>
+				        <button type="button" class="btn button-sm btn-sm" ">Delete</button>					
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      
+    </div>
+    
+		
+		<!-- <b-form-file v-model="uploadFileForm.src" :state="Boolean(file)" ref="fileUpload" placeholder="Choose a file..." required>
+		</b-form-file> -->
+		
+		<br>
+     
+	
+	
+  </div>
 
 
+
+    </div>
+</div>
+</div>
 
 
 <%- include ("../partials/footer") %>
