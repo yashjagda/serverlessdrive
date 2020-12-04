@@ -7,7 +7,8 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var User = require("./models/user");
 var methodOverride = require("method-override");
-
+var axios = require("axios");
+var AWS = require("aws-sdk");
 // routes
 var indexRoutes = require("./routes/index");
 var driveRoutes = require("./routes/drive");
@@ -43,6 +44,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+AWS.config.update({ region: "us-east-1" });
 //route calls
 app.use(indexRoutes);
 app.use(driveRoutes);

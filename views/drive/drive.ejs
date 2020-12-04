@@ -6,7 +6,11 @@
 <div class="grid1">
   <div class="container">
     <h3>Side Panel</h3>
-    <button type="button" class="btn button btn-lg">Add File</button>
+    <input type="file" size="60" id="file-selector" class="btn button btn-small"  ></input>
+    <img src="" height="200" >
+  </div>
+  <div id="api-data">
+    <p>Dataaaa</p>
   </div>
 </div>
 <div class="grid2">
@@ -50,10 +54,6 @@
       
     </div>
     
-		
-		<!-- <b-form-file v-model="uploadFileForm.src" :state="Boolean(file)" ref="fileUpload" placeholder="Choose a file..." required>
-		</b-form-file> -->
-		
 		<br>
      
 	
@@ -65,6 +65,64 @@
     </div>
 </div>
 </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+ const input = document.querySelector('input');
+ console.log("Input",input);
+
+
+ const fileSelector = document.getElementById('file-selector');
+    console.log(fileSelector);
+    fileSelector.addEventListener('change', (event) => {
+    const fileList = event.target.files;
+    console.log("filelist:",fileList[0].name);
+    createImage(fileList[0]);
+  });
+  
+  async function createImage (file) {
+      // var image = new Image()
+      console.log("createimage called");
+      let image = '';
+      const preview = document.querySelector('img');
+
+      let reader = new FileReader();
+      reader.addEventListener("load", function () {
+        // convert image file to base64 string
+        preview.src = reader.result;
+        image = reader.result;
+        }, false);
+        if (file) {
+          let img = reader.readAsDataURL(file);
+        }
+        //axios request
+        const response = await axios({
+        method: 'GET',
+        url: 'https://4oetrge8t5.execute-api.us-east-1.amazonaws.com/default/Basic'
+        });
+        console.log('Response: ', response.data);
+        console.log('Uploading: ', image);
+      //upload blob conversion
+      let binary = atob(image.split(',')[1]);
+      let array = []
+      for (var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i))
+      }
+      let blobData = new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+      console.log('Uploading to: ', response.data.uploadURL);
+
+
+      const result = await fetch(response.data.uploadURL, {
+        method: 'PUT',
+        body: blobData
+      });
+      console.log('Result: ', result);
+}
+ 
+</script>
 
 
 <%- include ("../partials/footer") %>
