@@ -8,7 +8,10 @@ var LocalStrategy = require("passport-local");
 var User = require("./models/user");
 var methodOverride = require("method-override");
 var axios = require("axios");
+var fs = require("fs");
 var AWS = require("aws-sdk");
+// var jsdom = require("jsdom");
+// var $ = require("jquery")(new jsdom.JSDOM().window);
 // routes
 var indexRoutes = require("./routes/index");
 var driveRoutes = require("./routes/drive");
@@ -44,7 +47,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-AWS.config.update({ region: "us-east-1" });
+AWS.config.update({ region: "us-east-2" });
 //route calls
 app.use(indexRoutes);
 app.use(driveRoutes);
@@ -53,3 +56,20 @@ app.use(driveRoutes);
 app.listen(3000, function () {
   console.log("Server Initiated!");
 });
+
+// $("button.download").click(async function () {
+//   var id = this.dataset.id;
+//   // do something with id
+//   console.log(id);
+//   const response = await axios({
+//     method: "GET",
+//     url:
+//       "https://vyeu8kbzjl.execute-api.us-east-2.amazonaws.com/default/getObject?name=" +
+//       `${id}`,
+//   });
+//   fs.writeFileSync(id, response.Body);
+//   console.log("Successful", `<%= data[1]%>`);
+// });
+function down(key, contents) {
+  fs.writeFileSync(key, contents);
+}

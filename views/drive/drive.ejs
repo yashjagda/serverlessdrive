@@ -5,12 +5,12 @@
 <div class="main grid-container">
 <div class="grid1">
   <div class="container">
-    <h3>Side Panel</h3>
+    
     <input type="file" size="60" id="file-selector" class="btn button btn-small"  ></input>
     <img src="" height="200" >
   </div>
   <div id="api-data">
-    <p>Dataaaa</p>
+    
   </div>
 </div>
 <div class="grid2">
@@ -19,7 +19,7 @@
       <h1>Welcome to Drive</h1>
     </header>
 
-    <h1>Main Content</h1>
+  
 
  <div class="container">
     <div class="row"> 
@@ -30,25 +30,27 @@
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Last Modified</th>
-			        <th scope="col">Created</th>
+			        
               <th scope="col">Size</th>
 			         <th scope="col">Description</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
+            <% for(var i=0; i < data.length; i++) { %>
             <tr class="implement_loop">
-              <td>File Name</td>
-              <td>Modified Date</td>
-			  <td>Created On</td>
-              <td>File Size</td>
-			  <td>Desc</td>
+              <td><%= data[i]%></td>
+              <td><%= metadata[i].LastModified %></td>
+			        
+              <td><%= metadata[i].ContentLength %> <%= metadata[i].AcceptRanges %> </td>
+			        <td><%= metadata[i].ContentType %></td>
               <td>
-                <button type="button" class="btn button-sm btn-sm" ">Update</button>
-                <button type="button" class="btn button-sm btn-sm"">Download</button>
-				        <button type="button" class="btn button-sm btn-sm" ">Delete</button>					
+                <button type="button" class="btn button-sm btn-sm" "><a href="https://serverlessdrive-latest.s3.us-east-2.amazonaws.com/<%= data[i]%>"">View</a></button>
+                <button type="button" class="btn button-sm btn-sm download"" data-id="<%= data[i]%>""> Download</button>
+				        <button type="button" class="btn button-sm btn-sm delete" data-id="<%= data[i]%>"">Delete</button>					
               </td>
             </tr>
+            <% } %>
           </tbody>
         </table>
       
@@ -69,24 +71,23 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script type="text/javascript">
 
- const input = document.querySelector('input');
- console.log("Input",input);
+<script type="text/javascript">
 
 
  const fileSelector = document.getElementById('file-selector');
-    console.log(fileSelector);
     fileSelector.addEventListener('change', (event) => {
     const fileList = event.target.files;
-    console.log("filelist:",fileList[0].name);
+    console.log("filelist:",fileList[0]);
     createImage(fileList[0]);
+    setTimeout(function(){ location.reload() }, 3000);
   });
   
   async function createImage (file) {
       // var image = new Image()
       console.log("createimage called");
       let image = '';
+      let filetype = file.type.toString();
       const preview = document.querySelector('img');
 
       let reader = new FileReader();
@@ -101,7 +102,7 @@
         //axios request
         const response = await axios({
         method: 'GET',
-        url: 'https://4oetrge8t5.execute-api.us-east-1.amazonaws.com/default/Basic'
+        url: 'https://wmw6blss1e.execute-api.us-east-2.amazonaws.com/default/putObject?name=' + `${file.name}` + '&type=' + `${filetype}`,
         });
         console.log('Response: ', response.data);
         console.log('Uploading: ', image);
@@ -111,7 +112,7 @@
       for (var i = 0; i < binary.length; i++) {
         array.push(binary.charCodeAt(i))
       }
-      let blobData = new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+      let blobData = new Blob([new Uint8Array(array)], {type: `${filetype}`});
       console.log('Uploading to: ', response.data.uploadURL);
 
 
@@ -121,6 +122,44 @@
       });
       console.log('Result: ', result);
 }
+
+$('button.download').click(async function () {
+    var id = this.dataset.id;
+    // do something with id 
+    console.log(id);
+    const data = await axios({
+        method: 'GET',
+        url: 'https://vyeu8kbzjl.execute-api.us-east-2.amazonaws.com/default/getObject?name=' + `${id}`,
+        });
+    console.log(data);
+    let blob=new Blob([data.data.Body], {type: data.data.ContentType});
+    let link=document.createElement('a');
+    link.href=window.URL.createObjectURL(blob);
+    link.download=id;
+    link.click();   
+    console.log("Successful",id);
+    
+});
+
+$('button.delete').click(async function () {
+    var id = this.dataset.id;
+    // do something with id 
+    console.log(id);
+    const data = await axios({
+        method: 'GET',
+        url: 'https://ksh3ahr5rd.execute-api.us-east-2.amazonaws.com/default/delete?name=' + `${id}`,
+        });
+    console.log(data);
+     
+    console.log("Successful",id);
+    setTimeout(function(){ location.reload() }, 3000);
+});
+
+
+
+
+
+
  
 </script>
 
