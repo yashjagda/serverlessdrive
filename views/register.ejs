@@ -1,11 +1,18 @@
 <%- include ("./partials/header") %>
-<h1>Sign Up</h1>
 
+<div style="width: 100%;">
+  <div style="margin-left:70%; margin-top:30px; margin-right: auto; height: 50px;">
+    <h4 class="title text-primary">Sign Up</h4>
 
-<form class="" action="/register" method="POST">
-  <input type="text" name="username" value="">
-  <input type="text" name="password" value="">
-  <button>Sign Up</button>
+    <form class="" action="/register" method="POST">
+      <input type="text" name="username" value="" placeholder="username/email">
+      <input type="text" name="password" value="" placeholder="password">
+      <button class="btn-primary">Sign Up</button>
 
-</form>
+    </form>
+  </div>
+  <div id="login-hero">
+  </div>
+
+</div>
 <%- include ("./partials/footer") %>
