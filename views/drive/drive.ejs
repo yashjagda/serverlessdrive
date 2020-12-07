@@ -1,12 +1,17 @@
 <%- include ("../partials/header") %>
 
 
-
+<div id = "loader"></div>
 <div class="main grid-container">
 <div class="grid1">
   <div class="container">
+
+    <label class="button uploader" for="file-selector" >
+      <input type="file" size="60" id="file-selector" class="btn button btn-small"  ></input>
+      <i class="fa fa-cloud-upload"></i>  Upload
+  </label>
+  
     
-    <input type="file" size="60" id="file-selector" class="btn button btn-small"  ></input>
     <img src="" height="200" >
   </div>
   <div id="api-data">
@@ -18,10 +23,14 @@
     <header class="jumbotron">
       <h1>Welcome to Drive</h1>
     </header>
+    
 
-  
+  <!-- <div class = "loader">
+    <img src="/images/loader.gif" alt="description of gif" /> 
+  </div> -->
 
  <div class="container">
+   
     <div class="row"> 
         <hr>
         <br><br>
@@ -73,14 +82,18 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript">
-
+$('#loader').hide();
 
  const fileSelector = document.getElementById('file-selector');
     fileSelector.addEventListener('change', (event) => {
     const fileList = event.target.files;
     console.log("filelist:",fileList[0]);
     createImage(fileList[0]);
-    setTimeout(function(){ location.reload() }, 3000);
+    
+    setTimeout(function(){ location.reload()
+    $('#loader').show();
+    }, 3000);
+    $('#loader').hide();
   });
   
   async function createImage (file) {
@@ -147,12 +160,15 @@ $('button.delete').click(async function () {
     console.log(id);
     const data = await axios({
         method: 'GET',
-        url: 'https://ksh3ahr5rd.execute-api.us-east-2.amazonaws.com/default/delete?name=' + `${id}`,
+        url: 'https://7pei495lsi.execute-api.us-east-2.amazonaws.com/default/pydelete?name=' + `${id}`,
         });
     console.log(data);
      
     console.log("Successful",id);
-    setTimeout(function(){ location.reload() }, 3000);
+    setTimeout(function(){ location.reload()
+    $('#loader').show();
+    }, 3000);
+    $('#loader').hide();
 });
 
 
