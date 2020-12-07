@@ -1,3 +1,4 @@
 node_modules
 workspace.code-workspace
 s3_listbuckets.js
+serverlessdrive.pem

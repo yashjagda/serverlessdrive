@@ -21,7 +21,7 @@
 <div class="grid2">
   <div class="container">
     <header class="jumbotron">
-      <h1>Welcome to Drive</h1>
+      <h1>Welcome to your ServerLess Drive</h1>
     </header>
     
 
@@ -32,16 +32,16 @@
  <div class="container">
    
     <div class="row"> 
-        <hr>
-        <br><br>
+        
+       
         <table class="table table-hover">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Last Modified</th>
+              <th scope="col">NAME</th>
+              <th scope="col">LAST MODIFIED</th>
 			        
-              <th scope="col">Size</th>
-			         <th scope="col">Description</th>
+              <th scope="col">SIZE</th>
+			         <th scope="col">DESCRIPTION</th>
               <th></th>
             </tr>
           </thead>
@@ -56,7 +56,7 @@
               <td>
                 <button type="button" class="btn button-sm btn-sm" "><a href="https://serverlessdrive-latest.s3.us-east-2.amazonaws.com/<%= data[i]%>"">View</a></button>
                 <button type="button" class="btn button-sm btn-sm download"" data-id="<%= data[i]%>""> Download</button>
-				        <button type="button" class="btn button-sm btn-sm delete" data-id="<%= data[i]%>"">Delete</button>					
+				        <button type="button" id="button-delete" class="btn button-sm btn-sm delete" data-id="<%= data[i]%>"">Delete</button>					
               </td>
             </tr>
             <% } %>
